@@ -1,17 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script type="text/javascript"
-            src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <th:block th:replace="header :: assets"></th:block>
+    <title>EMS | Create Record</title>
     <script type="text/javascript" src="/js/record_create.js"></script>
 </head>
 <body>
 <div class="container">
+    <div th:replace="index :: header"></div>
     <form id="create-record">
         <table>
             <tr>

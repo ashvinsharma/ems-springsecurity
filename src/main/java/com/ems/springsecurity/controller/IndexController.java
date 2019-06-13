@@ -8,7 +8,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String getIndex() {
-        return "index.html";
+        return "record_manipulate";
     }
 
     @RequestMapping("/record")
