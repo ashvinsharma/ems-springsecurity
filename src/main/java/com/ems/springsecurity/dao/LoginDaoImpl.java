@@ -4,7 +4,10 @@ import com.ems.springsecurity.model.Login;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository("loginDao")
@@ -19,12 +22,12 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
 
     @Override
     public Login findLoginByEmail(String email) {
-//        CriteriaQuery<Login> q = getSession().getCriteriaBuilder().createQuery(Login.class);
-//        Root<Login> root = q.from(Login.class);
-//        Join<Login, Employee> employeeJoin =
-//        q.select(root);
-//        TypedQuery<Login> tq = getSession().createQuery(q);
-//        return tq.getSingleResult();
-        return null;
+        CriteriaBuilder b = getSession().getCriteriaBuilder();
+        CriteriaQuery<Login> q = b.createQuery(Login.class);
+        Root<Login> root = q.from(Login.class);
+        Predicate p = b.like(root.join("employee").get("email"), email);
+        q.select(root).where(p);
+        TypedQuery<Login> tq = getSession().createQuery(q);
+        return tq.getSingleResult();
     }
 }

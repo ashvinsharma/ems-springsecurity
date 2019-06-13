@@ -31,12 +31,7 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) {
-        List<Login> list = findAllLogin();
-        Optional<Login> login = list
-                .stream()
-                .filter(u -> u.getEmployee().getEmail().equals(s))
-                .findAny();
-
+        Optional<Login> login = Optional.ofNullable(findLoginByEmail(s));
         if (!login.isPresent()) {
             throw new UsernameNotFoundException("User doesnt not exist");
         }
