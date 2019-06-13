@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class EmployeeRestController {
     private EmployeeService employeeService;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @Secured("ROLE_HR")
     public ResponseEntity createRecord(@Valid @ModelAttribute Employee em, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             ObjectNode objectNode = new JSONUtils().addArrayNode("content", bindingResult.getAllErrors());
@@ -47,6 +49,7 @@ public class EmployeeRestController {
      * containing employee objects in JSON form
      */
     @RequestMapping(value = "/read/all", method = RequestMethod.GET)
+    @Secured({"ROLE_IT", "ROLE_HR", "ROLE_SDE I", "ROLE_SDE II"})
     public ResponseEntity readAllEmployeeRecord() {
         employeeService = (EmployeeService) context.getBean("employeeService");
         List<Employee> list = employeeService.findAllEmployees();
@@ -62,6 +65,7 @@ public class EmployeeRestController {
      * containing employee object in JSON form
      */
     @RequestMapping(value = "/read/{email}", method = RequestMethod.GET)
+    @Secured({"ROLE_IT", "ROLE_HR", "ROLE_SDE I", "ROLE_SDE II"})
     public ResponseEntity readEmployeeRecord(@PathVariable("email") String email) {
         employeeService = (EmployeeService) context.getBean("employeeService");
         Employee employee;
@@ -82,6 +86,7 @@ public class EmployeeRestController {
 
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @Secured({"ROLE_IT", "ROLE_HR"})
     public ResponseEntity updateRecord(@Valid @ModelAttribute Employee em, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             ObjectNode objectNode = new JSONUtils().addArrayNode("content", bindingResult.getAllErrors());
@@ -104,6 +109,7 @@ public class EmployeeRestController {
      * Returns {@code HttpStatus.OK} even if {@code id} doesnt match with any record in database
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @Secured("ROLE_HR")
     public ResponseEntity deleteEmployeeRecord(@PathVariable("id") int id) {
         employeeService = (EmployeeService) context.getBean("employeeService");
         employeeService.deleteEmployee(id);
