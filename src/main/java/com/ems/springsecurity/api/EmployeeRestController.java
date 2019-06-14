@@ -84,7 +84,6 @@ public class EmployeeRestController {
         return ResponseEntity.status(HttpStatus.OK).body(objectNode);
     }
 
-
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @Secured({"ROLE_IT", "ROLE_HR"})
     public ResponseEntity updateRecord(@Valid @ModelAttribute Employee em, BindingResult bindingResult) {
